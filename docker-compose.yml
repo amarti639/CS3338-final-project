@@ -1,0 +1,99 @@
+version: '3.8'
+
+services:
+  # Frontend Service - Vue.js-based UI for AR interface
+  frontend:
+    image: node:18-alpine
+    container_name: moontrek-frontend
+    working_dir: /app
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    ports:
+      - "8080:8080"
+    environment:
+      - NODE_ENV=development
+      - VUE_APP_API_URL=http://backend:3000
+    command: npm run serve
+    depends_on:
+      - backend
+    networks:
+      - moontrek-network
+
+  # Backend Service - Express.js/Node.js API
+  backend:
+    image: node:18-alpine
+    container_name: moontrek-backend
+    working_dir: /app
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+      - DATABASE_URL=mysql://moontrek_user:moontrek_pass@mysql:3306/moontrek_db
+      - MOONTREK_API_URL=https://trek.nasa.gov/tiles/apidoc/trekAPI.html
+    command: nodemon server.js
+    depends_on:
+      - mysql
+    networks:
+      - moontrek-network
+
+  # MySQL Database - Stores user data and moon image metadata
+  mysql:
+    image: mysql:8.0
+    container_name: moontrek-mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root_password
+      - MYSQL_DATABASE=moontrek_db
+      - MYSQL_USER=moontrek_user
+      - MYSQL_PASSWORD=moontrek_pass
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "3306:3306"
+    networks:
+      - moontrek-network
+
+  # Image Processing Service - Python-based SIFT algorithm
+  image-processor:
+    image: python:3.11-slim
+    container_name: moontrek-image-processor
+    working_dir: /app
+    volumes:
+      - ./server:/app
+      - image-uploads:/app/images
+    ports:
+      - "5000:5000"
+    environment:
+      - PYTHONUNBUFFERED=1
+    command: python process.py
+    networks:
+      - moontrek-network
+
+  # 3D Model Service - Three.js WebGL rendering
+  model-generator:
+    image: node:18-alpine
+    container_name: moontrek-3d-model
+    working_dir: /app
+    volumes:
+      - ./model-service:/app
+      - /app/node_modules
+    ports:
+      - "8081:8081"
+    environment:
+      - NODE_ENV=development
+    command: npm start
+    networks:
+      - moontrek-network
+
+networks:
+  moontrek-network:
+    driver: bridge
+
+volumes:
+  mysql-data:
+  image-uploads:
