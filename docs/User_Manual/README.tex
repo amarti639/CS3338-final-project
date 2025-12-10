@@ -1,0 +1,144 @@
+\documentclass[12pt]{article}
+\usepackage{geometry}
+\usepackage{float}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{titling}
+\usepackage{hyperref}
+\usepackage[hyphens]{url}
+\usepackage[normalem]{ulem}
+
+\geometry{a4paper, margin=1in}
+\Urlmuskip=0mu plus 1mu
+
+\title{JPL - MoonTrek Augmented Reality \\ User Manual}
+\author{Group 2} 
+\date{December 2025}
+
+\setlength{\droptitle}{6cm}
+
+\pagestyle{fancy}
+\fancyhead[L]{User Manual}
+\fancyhead[C]{}
+\fancyhead[R]{Page \thepage}
+
+\begin{document}
+
+\begin{titlepage}
+\maketitle
+\thispagestyle{empty}
+\end{titlepage}
+
+\section*{Jira Project Link}
+\href{https://your-team-domain.atlassian.net/jira/software/projects/MTAR}{https://your-team-domain.atlassian.net/jira/software/projects/MTAR}
+
+Project Key: MTAR
+
+\section*{Formal Objective Breakdown}
+
+\subsection*{Snapshot 1: Foundation \& Core Infrastructure}
+Set up Vue.js frontend and Express.js backend, implement MySQL database for user and image data, create image upload functionality with metadata extraction (EXIF data), integrate NASA MoonTrek API, and complete initial documentation (SDD, SRS).
+
+\subsection*{Snapshot 2: 3D Model Generation \& Image Registration}
+Develop Three.js-based 3D model of Earth-Moon-Sun system using WebGL, implement SIFT algorithm for context-aware image registration, create reference image generation from 3D model, and build coordinate mapping system from WAC composite to user images.
+
+\subsection*{Snapshot 3: Overlay System \& Circle Detection}
+Implement circle detection algorithm to identify moon in user images, build automatic annotation overlays for lunar features using MoonTrek API data, add points of interest (craters, maria, landing sites), and create transformation matrix for accurate overlay positioning.
+
+\subsection*{Snapshot 4: Final Polish \& YourMoon Database}
+Complete YourMoon image database with cropping interface, implement machine learning validation for moon images, optimize image registration performance for real-time telescope feeds, and document future enhancements.
+
+\section*{Goals}
+
+Provide amateur astronomers with automatic annotation of Moon telescope images through a web-based interface. Using context-aware image registration with SIFT algorithm and 3D Earth-Moon-Sun modeling via Three.js, the application overlays lunar feature names, craters, maria, and landing sites from NASA's MoonTrek database onto user-uploaded images.
+
+\textbf{Why it matters:} Bridges the gap between professional NASA lunar data and amateur astronomers, enhances astronomical education, supports citizen science, and eliminates the need to manually cross-reference lunar atlases while observing.
+
+\section*{How to Download and Access}
+
+\subsection*{Accessing the Website}
+
+MoonTrek AR is a web-based application built with Vue.js - no downloads or installations required!
+
+Simply visit: \url{http://moontrek-ar.com}
+
+\textbf{Compatible with:}
+\begin{itemize}
+    \item Desktop browsers with WebGL support (Chrome, Firefox, Safari, Edge)
+    \item Mobile browsers (iOS Safari, Android Chrome)
+    \item Tablet devices
+\end{itemize}
+
+\subsection*{Using the Application}
+
+\textbf{Step 1: Visit the Website}
+
+Navigate to \url{http://moontrek-ar.com} on any device with internet access and WebGL-capable browser.
+
+\textbf{Step 2: Upload Your Moon Image}
+
+\begin{itemize}
+    \item Click "Upload Image" or drag and drop your telescope image
+    \item Supported formats: JPEG, PNG (max 10MB)
+    \item Image will be processed with circle detection to identify the moon
+    \item Metadata (timestamp, GPS coordinates) will be extracted automatically
+    \item If metadata is missing, you'll be prompted to enter location and time manually
+\end{itemize}
+
+\textbf{Step 3: View 3D Model and Registration}
+
+\begin{itemize}
+    \item Processing takes 30-60 seconds
+    \item Three.js generates photorealistic 3D model of Earth-Moon-Sun system
+    \item Reference image is created based on your location and timestamp
+    \item SIFT algorithm performs context-aware image registration
+    \item View transformation matrix results
+\end{itemize}
+
+\textbf{Step 4: Explore Annotations}
+
+\begin{itemize}
+    \item See automatic overlays with lunar feature names
+    \item View craters, maria (lunar seas), and landing sites
+    \item Access MoonTrek API data for points of interest
+    \item Use dropdown menu to toggle different data layers
+    \item Adjust overlay opacity for better visualization
+\end{itemize}
+
+\subsection*{Optional: Contribute to YourMoon Database}
+
+Create a free account to contribute your moon images to the YourMoon database:
+\begin{itemize}
+    \item Upload and crop moon images
+    \item Images validated through machine learning
+    \item Help build test database for registration accuracy
+    \item Access your upload history
+\end{itemize}
+
+\subsection*{Features}
+
+\begin{itemize}
+    \item \textbf{Context-Aware Registration:} SIFT algorithm with 3D model reference images
+    \item \textbf{Real-time 3D Modeling:} Three.js WebGL rendering of planetary positions
+    \item \textbf{Circle Detection:} Automatic moon identification in images
+    \item \textbf{NASA Data Integration:} Direct access to MoonTrek API overlays
+    \item \textbf{Metadata Extraction:} Automatic timestamp and GPS coordinate parsing
+    \item \textbf{Coordinate Mapping:} One-to-one correspondence from WAC composite to user image
+\end{itemize}
+
+\subsection*{Technical Stack}
+
+\textbf{Frontend:} Vue.js with WebGL support for Three.js 3D rendering
+
+\textbf{Backend:} Express.js (Node.js) with image processing routes
+
+\textbf{Database:} MySQL for user data and moon image metadata
+
+\textbf{Image Processing:} Python with SIFT algorithm (OpenCV)
+
+\textbf{3D Graphics:} Three.js for Earth-Moon-Sun modeling with texture mapping
+
+\textbf{APIs:} NASA MoonTrek API for lunar feature data
+
+
+\end{document}
