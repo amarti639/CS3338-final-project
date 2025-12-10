@@ -1,0 +1,190 @@
+\documentclass[12pt]{article}
+\usepackage{geometry}
+\usepackage{float}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{titling}
+\usepackage{lipsum}
+\usepackage{hyperref}
+\usepackage{hyperref}
+\usepackage[hyphens]{url}
+\usepackage[normalem]{ulem}
+
+\geometry{a4paper, margin=1in}
+\Urlmuskip=0mu plus 1mu
+
+\title{JPL - Moon Augmented Reality \\ Senior Design Document}
+\author{Group 2} 
+\date{December 2025}
+
+\setlength{\droptitle}{6cm}
+
+\pagestyle{fancy}
+\fancyhead[L]{JPL - Moon Augmented Reality SSD}
+\fancyhead[C]{}
+\fancyhead[R]{Page \thepage}
+
+\renewcommand{\UrlFont}{\ttfamily\underline}
+\begin{document}
+
+\begin{titlepage}
+\maketitle
+\thispagestyle{empty}
+\end{titlepage}
+
+\thispagestyle{empty}
+\tableofcontents
+\newpage
+
+\section*{Version History}
+\addcontentsline{toc}{section}{Version History}
+\begin{table}[ht]
+\centering
+
+\begin{tabular}{|c|c|c|}
+    \hline
+     \textbf{Date} & \textbf{Description} & \textbf{Version} \\
+     \hline
+     12/4/2025 & Update snapshot 1 & 1.0 \\
+     \hline
+     12/5/2025 & Update snapshot 2 & 2.0 \\
+     \hline
+     12/9/2025 & Update snapshot 3 & 3.0 \\
+     \hline
+     12/11/2025 & Update snapshot 4 & 4.0 \\
+     \hline
+
+\end{tabular}
+\end{table}
+
+\section{Introduction}
+\subsection{Purpose}
+The purpose of this document is to give informative documentation of the web application MoonTrek: Telescope Augmented Reality, hosted by Jet Propulsion Laboratory. This document will go over how to use the web application MoonTrek as well as the constraints, abilities, and features the application will operate on.
+\subsection{Intended Audience}
+This software requirement specification document are written for the general audience however this document can also be directed to audiences that are involved in the development of MoonTrek: Telescope Augmented Reality development. The intended audience can be software developers, project advisors, liaisons, team managers, or whoever is involved with the development of MoonTrek for upcoming years.
+\subsection{Overview of the System}
+The System Overview provides a high-level user understanding of the non-technical functions of MoonTrek. Later in this document, there is more in-depth on the technical aspects of the application MoonTrek.
+\begin{itemize}
+\item It is built with Express and Vue.js. On the MoonTrek web application, the user shall
+capture an image of the Moon from their telescope or upload a corresponding image into
+the web application.
+\item The user shall give the image to the web application; then, in turn, the web application
+provides points of interest on the Moon such as craters, maria, and landing sites.
+\item The augmented reality portion of the project improves the data overlays, creating a 3D model of the Moon created by Jet Propulsion Lab's high-quality images and
+user-uploaded images of the Moon.
+\item The team's objective is also to complete the telescope for computer communication, improve the accuracy of the image registration, and create a 3D model of the Sun, Moon, and Earth based on the images uploaded.
+\item The same 3D model of Earth will also annotate where the picture was taken and its time.
+\end{itemize}
+
+\section{System Architecture}
+\subsection{Workflow of the system}
+\begin{figure}[h!]
+\centering 
+\includegraphics[width=0.6\linewidth]{workflow.png}
+\end{figure}
+\subsection{Breakdown (Client-side, Server-side)}
+The directory which contains all the source files for our web app is titled MoonTrek, and it contains two subdirectories: “client” and “server”. The client directory contains all the source files which make the web app functional for the user. This includes basic files for UI, such as the favicon, animated stars for the background, and the logo. The client directory also includes route files that manage the form upload process and the general structure of the backend. The server directory contains all the information necessary for image registration to take place. As of right now, this includes the reference images of the moon, which will be obsolete once our new method of image registration is implemented. Most importantly, it includes the process.py file which executes the SIFT algorithm which conducts image registration. The following image shows all the subdirectories and files in the MoonTrek directory:
+
+\begin{figure}[H]
+\centering 
+\includegraphics[width=0.5\linewidth]{MoonTrek-Directory.png}
+\end{figure}
+
+\subsection{Interface Module (UIM)}
+\subsubsection{Responsibilities}
+The UIM displays VueJs routes to allow the user to interact with the MoonTrek project. The UIM is configured to be viewed on a smartphone, tablet, or computer. The UIM accepts the user’s input images and shows a form if the image metadata does not include the required time and date information.
+\subsubsection{Composition}
+The UIM involves multiple .vue files, including ConnectPage.vue, HomePage.vue,
+ModelPage.vue, and UploadPage.vue, which create the HTTP responses for each page
+that the user will access. These pages then reference component files such as
+AnimatedStars.vue, ImageCanvas.vue, ImageUploadForm.vue, and NavBar.vue.
+
+\subsection {Registration Module (RM)}
+\subsubsection{Responsibilities}
+The RM uses the SIFT machine learning algorithm to perform image registration
+between the user’s image and a reference image created by the 3DM. The output is a
+transformation matrix that can be applied to the MoonTrek points of interest which will
+place them in the correct locations on the moon in the input image.
+\subsubsection{Composition}
+The bulk of the RM processing takes place in process.py on the server side. Reference
+images used for registration are stored in the adjacent images folder.
+
+\subsection{3D-Model Module (3DM)}
+\subsubsection{Responsibilities}
+The 3DM is responsible for creating the context-aware reference image that the RM will
+use for image registration. The 3DM creates a dynamic photorealistic model of the earth, moon, and sun, and captures an image of the moon such that it appears very similar to the location and orientation of the input image. This will allow the image registration algorithm to be more accurate and dynamic since the images will be closer together to start with.
+\subsubsection{Uses/Interactions}
+The current version of 3DM requires a longitude, latitude, time, and date as input in order to orient the planetary bodies and the camera in exactly the way that they were when the picture was taken. This data is stripped from the input image’s metadata, and if the metadata is missing or invalid, the user is prompted with a form through which they can input the missing information directly.
+
+
+\section{User Interface}
+\subsection{How the system works}
+The user will open the application and see the homepage. From the homepage, the user will be able to upload their own image of the moon. The user is able to see their moon next to a picture of the Moon with all the data. We will also implement a 3d model that shows the Moon, Earth, and Sun. The user will also be able to click the ‘About’ pages, which show information about the project and group members.
+\subsection{Database Design}
+To use YourMoon, our team set up their own MySQL server using MySQL Workbench and
+XAMPP control panel for the server. Once the server is set up, team members can create a database and tables to store data. The database is then connected to the website using Express.js. The connection is established through a configuration file that contains the database credentials. The database can then be accessed by the client-side Vue.js framework to upload and retrieve data. YourMoon is a supplement website that allows users to upload their moon images to a MySQL database using Vue.js Framework for the client side and Express.js for the server side, while using JavaScript to handle upload features to the database. In addition, users can crop their images before uploading using a tool implemented with JavaScript, CSS, and HTML. This feature enhances the accuracy of our circle detection algorithm, allowing for better identification the moon in the images. To set up the MySQL server, users can use MySQL Workbench and XAMPP control panel for the server. With this implementation, YourMoon provides a user-friendly interface for image upload and processing, improving the accessibility of moon image data for research and educational purposes.
+\subsection{Screenshots}
+\begin{figure}[h!]
+\centering
+\includegraphics[width=1\linewidth]{userinterface.png}
+\end{figure}
+
+\section*{Glossary}
+\addcontentsline{toc}{section}{Glossary}
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.4} % optional: adds row spacing
+
+\begin{tabular}{|c|c|}
+\hline
+\textbf{Acronym} & \textbf{Long Version} \\
+\hline
+SRD & Software Requirement Document \\
+\hline
+UI & User Interface \\
+\hline
+SDD & Software Design Document \\
+\hline
+MLA & Modern Language Association \\
+\hline
+JPL & Jet Propulsion Laboratory \\
+\hline
+MT & Moon Trek \\
+\hline
+UIM & User Interface Module \\
+\hline
+RM & Registration Module \\
+\hline
+\end{tabular}
+\end{table}
+
+
+\section*{References}
+\addcontentsline{toc}{section}{References}
+
+\begin{table}[h!]
+\centering
+\renewcommand{\arraystretch}{1.6}
+\begin{tabular}{|p{6cm}|p{11cm}|}
+
+\hline
+\textbf{Reference Name} & \textbf{Source} \\
+\hline
+Software Design Document \newline
+Software Requirement Document
+& CSULA \\
+\hline
+MoonTrek API
+& \url{https://trek.nasa.gov/tiles/apidoc/trekAPI.html?bod} \\
+\hline
+Django Web Framework
+& \url{https://docs.djangoproject.com/en/3.1/} \\
+\hline
+ASCOM Standards
+& \url{https://ascom-standards.org/} \\
+\hline
+
+\end{tabular}
+\end{table}
+
+\end{document}
