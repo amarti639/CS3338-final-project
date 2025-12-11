@@ -1,0 +1,83 @@
+\documentclass[12pt]{article}
+\usepackage{geometry}
+\usepackage{float}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{titling}
+\usepackage{hyperref}
+\usepackage[hyphens]{url}
+\usepackage[normalem]{ulem}
+
+\geometry{a4paper, margin=1in}
+\Urlmuskip=0mu plus 1mu
+
+\title{JPL - Moon Augmented Reality \\ Snapshot Objectives}
+\author{Group 2} 
+\date{December 2025}
+
+\setlength{\droptitle}{6cm}
+
+\pagestyle{fancy}
+\fancyhead[L]{Snapshot Objectives}
+\fancyhead[C]{}
+\fancyhead[R]{Page \thepage}
+
+\begin{document}
+
+\begin{titlepage}
+\maketitle
+\thispagestyle{empty}
+\end{titlepage}
+
+\section*{Start Objective}
+
+The starting objective of the MoonTrek Augmented Reality Application is to establish the user interface and backend components necessary for the web application. This includes the following key components:
+
+\begin{itemize}
+    \item Setting up the Docker environment with Vue.js frontend, Express.js backend, MySQL database, and Python image processing service.
+    \item Developing a user-friendly interface on the Vue.js web application with navigation between Home, Upload, and Model pages.
+    \item Implementing the MySQL database to store user images and EXIF metadata (timestamp and GPS coordinates).
+    \item Creating image upload functionality using Multer middleware to handle JPEG and PNG files up to 10MB.
+    \item Extracting metadata from uploaded images automatically, with a fallback form for manual entry when metadata is missing.
+    \item Establishing connection to NASA MoonTrek API and documenting available endpoints for lunar feature data.
+\end{itemize}
+
+\section*{1st Checkpoint Objective}
+
+The primary objective for Snapshot 2 is to implement the core image processing algorithms and 3D model generation for context-aware image registration. This includes:
+
+\begin{itemize}
+    \item Developing the circle detection algorithm using Python and OpenCV to automatically identify the moon in uploaded images.
+    \item Implementing the SIFT (Scale-Invariant Feature Transform) algorithm for image registration between user images and reference images.
+    \item Building the Three.js 3D model that positions Earth, Moon, and Sun based on the user's timestamp and GPS coordinates.
+    \item Applying LRO WAC texture mapping to the 3D moon model and implementing directional lighting for realistic shadows.
+    \item Generating reference images from the 3D model that match the user's viewing angle for accurate SIFT registration.
+    \item Calculating transformation matrices to account for rotation, scale, and translation differences between images.
+\end{itemize}
+
+\section*{2nd Checkpoint Objective}
+
+The primary objective for Snapshot 3 is to integrate the NASA MoonTrek API and implement the overlay system that displays lunar features on user images. This includes:
+
+\begin{itemize}
+    \item Integrating NASA MoonTrek API to fetch crater names, maria (lunar seas), and Apollo landing site data.
+    \item Implementing coordinate mapping to translate WAC composite coordinates to user image pixel positions using the transformation matrix.
+    \item Building the overlay display system that accurately positions crater names and landing site markers on the annotated image.
+    \item Creating interactive UI controls including a dropdown menu for layer selection and an opacity slider for overlay transparency.
+    \item Optimizing the processing pipeline to ensure the complete workflow from upload to annotated result completes within 60 seconds.
+\end{itemize}
+
+\section*{Due Date Checkpoint}
+
+The primary objective of Snapshot 4, or the Due Date checkpoint, is to finalize the YourMoon database feature and make final adjustments to the application. This includes:
+
+\begin{itemize}
+    \item Implementing the YourMoon database submission system with an image cropping interface for users to contribute moon images.
+    \item Integrating machine learning validation to verify submitted images are actual moon photographs.
+    \item Conducting comprehensive testing across different browsers (Chrome, Firefox, Safari, Edge) to ensure WebGL compatibility.
+    \item Performing final optimizations to improve SIFT registration speed and overall system performance.
+    \item Completing all documentation including final versions of the SDD, SRS, Design Specification, and README user manual.
+    \item Making minor interface adjustments to improve usability and address any remaining bugs or errors discovered during testing.
+\end{itemize}
+
+\end{document}
