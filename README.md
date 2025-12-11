@@ -1,6 +1,6 @@
 # CS 3338 Final Project - Group 2 - MoonTrek Augmented Reality
 
-**Jira Project URL:** https://your-team-domain.atlassian.net/jira/software/projects/MTAR
+**Jira Project URL:** https://cs3338-group-2-2025.atlassian.net/jira/software/projects/MTAR/boards/105
 
 ## Team
 
